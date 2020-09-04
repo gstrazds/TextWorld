@@ -86,8 +86,8 @@ class GameLogger:
                         action_name = action_name.split("-")[0].split("/")[0]
 
                     self.dist_cmd_type[action_name] += 1
-
-                self.dist_final_cmd_type[action_name] += 1
+                if len(actions):
+                    self.dist_final_cmd_type[action_name] += 1
 
         # Collect distribution of object's types.
         dist_obj_type = defaultdict(lambda: 0)
