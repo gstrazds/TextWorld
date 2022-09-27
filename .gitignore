@@ -14,6 +14,7 @@
 *.sublime-*
 build/*
 gen_games*/
+tw_games/*
 experiments*/
 /textworld/thirdparty/inform7-6M62
 gameinfo.dbg

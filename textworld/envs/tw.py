@@ -85,6 +85,7 @@ class TextWorldEnv(textworld.Environment):
                 self.state["intermediate_reward"] = int(diff > 0) - int(diff < 0)  # Sign function.
 
         if self.infos.facts:
+            # print(self.state["_facts"])   # raw facts include variable ids?
             self.state["facts"] = list(map(self._inform7.get_human_readable_fact, self.state["_facts"]))
 
         self.state["last_action"] = None

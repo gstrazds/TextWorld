@@ -953,7 +953,7 @@ class GameProgression:
     of Action that need to be applied in order to complete the game.
     """
 
-    def __init__(self, game: Game, track_quests: bool = True) -> None:
+    def __init__(self, game: Game, track_quests: bool = True, track_valid_actions: bool = True) -> None:
         """
         Args:
             game: The game for which to track progression.
@@ -961,8 +961,14 @@ class GameProgression:
         """
         self.game = game
         self.state = game.world.state.copy()
-        self._valid_actions = list(self.state.all_applicable_actions(self.game.kb.rules.values(),
-                                                                     self.game.kb.types.constants_mapping))
+        self._track_valid_actions = track_valid_actions
+        if self._track_valid_actions:
+            self._valid_actions = list(self.state.all_applicable_actions(self.game.kb.rules.values(),
+                                                                        self.game.kb.types.constants_mapping))
+        else:
+             # self._valid_actions = []
+             self._valid_actions = list(self.state.all_applicable_actions([self.game.kb.rules['look']],
+                                                                    self.game.kb.types.constants_mapping))
 
         self.quest_progressions = []
         if track_quests:

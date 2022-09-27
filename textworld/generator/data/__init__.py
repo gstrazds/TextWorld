@@ -11,7 +11,7 @@ from typing import Optional, Mapping
 
 from textworld.logic import GameLogic
 from textworld.generator.vtypes import VariableType, VariableTypeTree
-from textworld.utils import maybe_mkdir, RegexDict
+from textworld.utils import maybe_mkdir, RegexDict, str2bool
 
 BUILTIN_DATA_PATH = os.path.dirname(__file__)
 LOGIC_DATA_PATH = pjoin(BUILTIN_DATA_PATH, 'logic')
@@ -105,7 +105,10 @@ class KnowledgeBase:
         self.inform7_variables = {i7type.name: i7type.kind for i7type in self.logic.inform7.types.values()}
         self.inform7_variables_description = {i7type.name: i7type.definition for i7type in self.logic.inform7.types.values()}
         self.inform7_addons_code = self.logic.inform7.code
-
+        if str2bool(os.environ.get("TEXTWORLD_DEBUG", False)):
+            print("[TW_DEBUG] kb.rules:")
+            for key, rule in self.rules.items():
+                print(f"[TW_DEBUG]\t\t{rule}")
     @classmethod
     def default(cls):
         return KB

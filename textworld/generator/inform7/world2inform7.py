@@ -243,6 +243,8 @@ class Inform7Game:
         for action in actions:
             event = self.kb.inform7_events[action.name]
             if event.format(**self._get_name_mapping(action)).lower() == i7_event.lower():
+                if str2bool(os.environ.get("TEXTWORLD_DEBUG", False)):
+                    print(f"[DEBUG]{action}:", self._get_name_mapping(action))
                 return action
 
         return None
