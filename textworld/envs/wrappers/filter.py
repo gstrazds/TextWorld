@@ -38,7 +38,10 @@ class Filter(Wrapper):
         if self.infos.extras:
             for attr in self.infos.extras:
                 key = "extra.{}".format(attr)
-                infos[key] = game_state.get(key)
+                if key == 'extra._facts':
+                    infos[key] = game_state.get("_facts")
+                else:
+                    infos[key] = game_state.get(key)
 
         return infos
 
