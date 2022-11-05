@@ -18,7 +18,7 @@ from textworld.utils import encode_seeds
 from textworld.generator.data import KnowledgeBase
 from textworld.generator.text_grammar import Grammar, GrammarOptions
 from textworld.generator.world import World
-from textworld.logic import Action, Proposition, State
+from textworld.logic import Action, Proposition, State, Placeholder, Variable
 from textworld.generator.graph_networks import DIRECTIONS
 
 from textworld.generator.chaining import ChainingOptions
@@ -1067,6 +1067,80 @@ class GameProgression:
              # self._valid_actions = []
              self._valid_actions = list(self.state.all_applicable_actions([self.game.kb.rules['look']],
                                                                     self.game.kb.types.constants_mapping))
+
+    def action_if_command_is_applicable(self, command: str) -> Optional[Action]:
+        """
+        Return an actions that can be instantiated in this state corresponding to the given command.
+
+        Parameters
+        ----------
+        rule :
+            The rule to instantiate.
+        mapping : optional
+            An initial mapping to start from, constraining the possible instantiations.
+
+        Returns
+        -------
+        The actions that can be instantiated from the command in this state.
+        """
+        # rule = find_a_rule_that_matches_the_command(command, partial_mapping)
+        _action = None
+        names2infos = {info.name if info.name else info.id: info for info in self.game.infos.values()}
+
+        for rule in self.game.kb.rules.values():
+            # potential_match = False
+            template_words = rule.command_template.split()
+            command_words = command.split()
+            if template_words[0] == command_words[0]:
+                potential_match = True
+                # print(f"POTENTIAL match for command({command_words}) {template_words}  {rule}")
+                prepositions = [word for word in template_words[1:] if word in ['from', 'with', 'into', 'on']]
+                placeholders = [word for word in template_words[1:] if word.startswith('{')]
+                for prep in prepositions:
+                    if not prep in command_words:
+                        potential_match = False
+                        # print(f"NOT A MATCH: failed to match: {prep}")
+                        break
+                if potential_match:
+                    # print(f"STILL OK for command({command_words}) {template_words}  {rule}")
+                    start_idx = 1   # skip the verb at the start of the command
+                    obj_names = []
+                    for prep in prepositions:
+                        end_idx = command_words.index(prep)
+                        obj_names.append(' '.join(command_words[start_idx:end_idx]))
+                        start_idx = end_idx+1
+                    obj_names.append(' '.join(command_words[start_idx:]))
+                    # print("obj_names:", obj_names)
+                    partial_mapping = self.game.kb.types.constants_mapping.copy()
+                    if len(placeholders):
+                        assert len(placeholders) == len(obj_names), f"{placeholders} {obj_names}"
+                        for ph, name in zip(placeholders, obj_names):
+                            ph_type = ph[1:-1]  #assume that ph is always a pattern like '{type}' -- strip the brackets
+                            if name not in names2infos:
+                                print(f"FAILED TO FIND game.info for {name}")
+                                for key, inf in names2infos.items():
+                                    print(key, inf)
+                                potential_match = False
+                            else:
+                                varinfo = names2infos[name]
+                                if varinfo.type == ph_type or varinfo.type == 'meal' and ph_type == 'f':
+                                    placeholder = Placeholder(ph_type)
+                                    variable = Variable(varinfo.id, varinfo.type)
+                                    assert placeholder not in partial_mapping, f"{placeholder}, "
+                                    partial_mapping[placeholder] = variable
+                                elif varinfo.type:    # HACK? None or empty type might match any placeholder
+                                    # print(f"INFO {varinfo} FAILED TO MATCH PLACEHOLDER TYPE: {varinfo.type} != '{ph_type}'")
+                                    potential_match = False
+                                    break   # give up, try next rule
+                if potential_match:
+                    # print(f"ATTEMPTING TO MATCH {command} using {rule} with mapping: {partial_mapping}")
+                    # If more than one possibility, returns the first match. If none, returns None
+                    _action = next(self.state.all_instantiations(rule, mapping=partial_mapping), None)
+                    if _action:
+                        print("SUCCESSFULLY INSTANTIATED A MATCHING ACTION:", _action)
+                        break   # exit the loop now: return the first successful match
+        # print("######## _action=", _action)
+        return _action
 
 
 class GameOptions:

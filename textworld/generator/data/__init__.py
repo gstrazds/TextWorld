@@ -110,8 +110,9 @@ class KnowledgeBase:
             print("\t\t", self.types.constants_mapping)
             print("[TW_DEBUG] kb.rules:")
             for key, rule in self.rules.items():
+                print(f"[TW_DEBUG]\t{rule.command_template}")
                 print(f"[TW_DEBUG]\t\t{rule}")
-                print(f"\t\tkb.inform7_event: {self.inform7_events[key]}")
+                print(f"[TW_DEBUG]\t\t\tinform7_event: [{self.inform7_events[key]}]")
     @classmethod
     def default(cls):
         return KB

@@ -134,7 +134,7 @@ class TextWorldEnv(textworld.Environment):
         except ValueError:
             # try to map command str to an applicable action without using game_progression.valid_actions
             print("TextWorldEnv - ATTEMPT TO apply:", command)
-            _action = self._game_progression.state.action_if_command_is_applicable(command)
+            _action = self._game_progression.action_if_command_is_applicable(command)
             print("_action =", _action)
 
         if _action:

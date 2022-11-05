@@ -306,11 +306,7 @@ class StateTracking(textworld.core.Wrapper):
                 # try to map command str to an applicable action without using game_progression.valid_actions
                 print("DEBUG: StateTracking(without valid_actions) - ATTEMPT TO apply:", command)
                 # assert isinstance(self._wrapped_env, Inform7Data)
-                _prev_state = self._game_progression.state
-                if _prev_state:
-                    assert isinstance(_prev_state, State)
-                    _action = _prev_state.action_if_command_is_applicable(command)
-                    self._last_action = _action
+                self._last_action = self._game_progression.action_if_command_is_applicable(command)
 
             if self._last_action is not None:
                 # An action that affects the state of the game.
