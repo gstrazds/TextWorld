@@ -130,12 +130,20 @@ class TextWorldEnv(textworld.Environment):
         try:
             # Find the action corresponding to the command.
             idx = self._prev_state["_valid_commands"].index(command)
-            self._last_action = self._game_progression.valid_actions[idx]
+            _action = self._game_progression.valid_actions[idx]
+        except ValueError:
+            # try to map command str to an applicable action without using game_progression.valid_actions
+            print("TextWorldEnv - ATTEMPT TO apply:", command)
+            _action = self._game_progression.state.action_if_command_is_applicable(command)
+            print("_action =", _action)
+
+        if _action:
+            self._last_action = _action
             # An action that affects the state of the game.
             self._game_progression.update(self._last_action)
             self._current_winning_policy = self._game_progression.winning_policy
             self._moves += 1
-        except ValueError:
+        else:
             self.state.feedback = "Invalid command."
             pass  # We assume nothing happened in the game.
 

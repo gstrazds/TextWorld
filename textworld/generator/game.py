@@ -962,14 +962,7 @@ class GameProgression:
         self.game = game
         self.state = game.world.state.copy()
         self._track_valid_actions = track_valid_actions
-        if self._track_valid_actions:
-            self._valid_actions = list(self.state.all_applicable_actions(self.game.kb.rules.values(),
-                                                                        self.game.kb.types.constants_mapping))
-        else:
-             # self._valid_actions = []
-             self._valid_actions = list(self.state.all_applicable_actions([self.game.kb.rules['look']],
-                                                                    self.game.kb.types.constants_mapping))
-
+        self._update_valid_actions_for_current_state()
         self.quest_progressions = []
         if track_quests:
             self.quest_progressions = [QuestProgression(quest, game.kb) for quest in game.quests]
@@ -978,7 +971,7 @@ class GameProgression:
 
     def copy(self) -> "GameProgression":
         """ Return a soft copy. """
-        gp = GameProgression(self.game, track_quests=False)
+        gp = GameProgression(self.game, track_quests=False, track_valid_actions=self._track_valid_actions)
         gp.state = self.state.copy()
         gp._valid_actions = self._valid_actions
         if self.tracking_quests:
@@ -1059,13 +1052,21 @@ class GameProgression:
         # Update world facts.
         self.state.apply(action)
 
-        # Get valid actions.
-        self._valid_actions = list(self.state.all_applicable_actions(self.game.kb.rules.values(),
-                                                                     self.game.kb.types.constants_mapping))
+        self._update_valid_actions_for_current_state()
 
         # Update all quest progressions given the last action and new state.
         for quest_progression in self.quest_progressions:
             quest_progression.update(action, self.state)
+
+    def _update_valid_actions_for_current_state(self):
+        if self._track_valid_actions:
+        # Get valid actions.
+            self._valid_actions = list(self.state.all_applicable_actions(self.game.kb.rules.values(),
+                                                                        self.game.kb.types.constants_mapping))
+        else:
+             # self._valid_actions = []
+             self._valid_actions = list(self.state.all_applicable_actions([self.game.kb.rules['look']],
+                                                                    self.game.kb.types.constants_mapping))
 
 
 class GameOptions:

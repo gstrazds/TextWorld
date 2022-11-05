@@ -106,9 +106,12 @@ class KnowledgeBase:
         self.inform7_variables_description = {i7type.name: i7type.definition for i7type in self.logic.inform7.types.values()}
         self.inform7_addons_code = self.logic.inform7.code
         if str2bool(os.environ.get("TEXTWORLD_DEBUG", False)):
+            print("[TW_DEBUG] kb.types.constants_mappings:")
+            print("\t\t", self.types.constants_mapping)
             print("[TW_DEBUG] kb.rules:")
             for key, rule in self.rules.items():
                 print(f"[TW_DEBUG]\t\t{rule}")
+                print(f"\t\tkb.inform7_event: {self.inform7_events[key]}")
     @classmethod
     def default(cls):
         return KB

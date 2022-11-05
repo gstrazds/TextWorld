@@ -1877,6 +1877,26 @@ class State:
         for ph in placeholders:
             mapping.pop(ph, None)
 
+    def action_if_command_is_applicable(self, command: str,
+                           mapping: Mapping[Placeholder, Variable] = None
+                           ) -> Optional[Action]:
+        """
+        Return an actions that can be instantiated in this state corresponding to the given command.
+
+        Parameters
+        ----------
+        rule :
+            The rule to instantiate.
+        mapping : optional
+            An initial mapping to start from, constraining the possible instantiations.
+
+        Returns
+        -------
+        The actions that can be instantiated from the rule in this state.
+        """
+        assert False, f"action_if_command_is_applicable({command} {mapping}) NOT IMPLEMENTED"
+        return rule.instantiate(assignment)
+
     def copy(self) -> "State":
         """
         Create a copy of this state.

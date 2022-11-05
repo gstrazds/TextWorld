@@ -9,6 +9,7 @@ import re
 from typing import Mapping, Tuple, List, Optional
 
 import textworld
+from textworld.logic import State
 from textworld.utils import str2bool
 from textworld.generator.game import Game, GameProgression
 from textworld.generator.inform7 import Inform7Game
@@ -301,11 +302,25 @@ class StateTracking(textworld.core.Wrapper):
         for i7_event in i7_events:
             valid_actions = self._game_progression.valid_actions
             self._last_action = self._inform7.detect_action(i7_event, valid_actions)
+            if self._last_action is None:
+                # try to map command str to an applicable action without using game_progression.valid_actions
+                print("DEBUG: StateTracking(without valid_actions) - ATTEMPT TO apply:", command)
+                # assert isinstance(self._wrapped_env, Inform7Data)
+                _prev_state = self._game_progression.state
+                if _prev_state:
+                    assert isinstance(_prev_state, State)
+                    _action = _prev_state.action_if_command_is_applicable(command)
+                    self._last_action = _action
+
             if self._last_action is not None:
                 # An action that affects the state of the game.
                 self._game_progression.update(self._last_action)
                 self._current_winning_policy = self._game_progression.winning_policy
                 self._moves += 1
+            else:
+                # self.state.feedback = "Invalid command."
+                print("DEBUG: StateTracking failed to identify action for command:", command)
+                pass  # We assume nothing happened in the game.
 
         self._gather_infos()
         self.state["done"] = self.state["won"] or self.state["lost"]
