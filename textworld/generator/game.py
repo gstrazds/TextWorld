@@ -953,7 +953,7 @@ class GameProgression:
     of Action that need to be applied in order to complete the game.
     """
 
-    def __init__(self, game: Game, track_quests: bool = True, track_valid_actions: bool = False) -> None:
+    def __init__(self, game: Game, track_quests: bool = True, track_valid_actions: bool = True) -> None:
         """
         Args:
             game: The game for which to track progression.
@@ -1087,32 +1087,49 @@ class GameProgression:
         _action = None
         names2infos = {info.name if info.name else info.id: info for info in self.game.infos.values()}
 
-        for rule in self.game.kb.rules.values():
+        for rule in sorted(self.game.kb.rules.values(), key=lambda r: len(r.preconditions), reverse=True):
+
+        #sort by len of preconditions, so that we match the most restrictive rule first
             # potential_match = False
-            if rule.command_template == command:  # simplest case, just do it
+            if rule.command_template == command and command.startswith("go "):  # simplest case, just do it
                 print(f"exact match {rule.command_template} {command} {rule}")
+                potential_match = True
                 _action = next(self.state.all_instantiations(rule),  None)
-                print("   ---> action = ", _action)
                 if _action:
-                    return _action
+                    print("INSTANTIATED EXACT MATCH ACTION:", _action)
+                    break  # exit loop, return _action
 
             template_words = rule.command_template.split()
             command_words = command.split()
             if template_words[0] == command_words[0] and command_words[0] != 'go':  # 'go X' should find an exact match, try another rule
                 potential_match = True
+                #prevent matching make/recipe/n if n < number of ingredients in the RECIPE
+                if rule.name.startswith('make/recipe/'):
+                    try:
+                        recipe_len = int(rule.name[len('make/recipe/'):])  #
+                    except ValueError:
+                        print("UNEXPECTED: failed to parse recipe rule name:", rule.command_template)
+                        recipe_len = -1
+                    num_ingredients = len(self.state.variables_of_type('ingredient'))
+                    if recipe_len != num_ingredients:
+                        print(f"SKIPPING rule {rule.name} because num ingredients doesn't match. {num_ingredients}")
+                        continue   # loop to next candidate rule
+                    else:
+                        print(f"MAYBE PREPARE MEAL? {rule.name} {self.game.metadata['uuid']}")
+
                 print(f"POTENTIAL match for command({command_words}) {template_words}  {rule}")
-                prepositions = [word for word in template_words[1:] if word in ['from', 'with', 'into', 'on']]
+                prepositions_in_template = [word for word in template_words[1:] if word in ['from', 'with', 'into', 'on']]
+                prepositions_in_command = [word for word in command_words[1:] if word in ['from', 'with', 'into', 'on']]
                 placeholders = [word for word in template_words[1:] if word.startswith('{')]
-                for prep in prepositions:
-                    if not prep in command_words:
-                        potential_match = False
-                        print(f"NOT A MATCH: failed to match: {prep}")
-                        break
+                if not prepositions_in_command == prepositions_in_template:
+                    # if not prep in command_words:
+                    potential_match = False
+                    print(f"NOT A MATCH: failed to match: {prepositions_in_template} {prepositions_in_command}")
                 if potential_match:
                     print(f"STILL OK for command({command_words}) {template_words}  {rule}")
                     start_idx = 1   # skip the verb at the start of the command
                     obj_names = []
-                    for prep in prepositions:
+                    for prep in prepositions_in_command:
                         end_idx = command_words.index(prep)
                         obj_names.append(' '.join(command_words[start_idx:end_idx]))
                         start_idx = end_idx+1
@@ -1130,12 +1147,14 @@ class GameProgression:
                                 potential_match = False
                             else:
                                 varinfo = names2infos[name]
-                                if varinfo.type == ph_type or varinfo.type == 'meal' and ph_type == 'f':
+                                # if varinfo.type == ph_type or varinfo.type == 'meal' and ph_type == 'f':
+                                if self.state.variable_named(varinfo.id).is_a(self.state._logic.types.get(ph_type)):
                                     placeholder = Placeholder(ph_type)
-                                    variable = Variable(varinfo.id, varinfo.type)
+                                    # variable = Variable(varinfo.id, varinfo.type)
+                                    variable = self.state.variable_named(varinfo.id)
                                     assert placeholder not in partial_mapping, f"{placeholder}, "
                                     partial_mapping[placeholder] = variable
-                                elif varinfo.type:    # HACK? None or empty type might match any placeholder
+                                else:     # if varinfo.type: # HACK? None or empty type might match any placeholder
                                     print(f"INFO {varinfo} FAILED TO MATCH PLACEHOLDER TYPE: {varinfo.type} != '{ph_type}'")
                                     potential_match = False
                                     break   # give up, try next rule
@@ -1147,7 +1166,12 @@ class GameProgression:
                         print("SUCCESSFULLY INSTANTIATED A MATCHING ACTION:", _action)
                         break   # exit the loop now: return the first successful match
                     else:
-                        print("FAILED TO INSTANTE ACTION:", rule, partial_mapping)
+                        print("FAILED TO INSTANTIATE ACTION:", rule, partial_mapping)
+                        if command == "eat meal":
+                            for v in self.state._facts.values():
+                                if v:
+                                    print(v)
+                            print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
         # print("######## _action=", _action)
         return _action
 

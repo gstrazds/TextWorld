@@ -105,14 +105,7 @@ class KnowledgeBase:
         self.inform7_variables = {i7type.name: i7type.kind for i7type in self.logic.inform7.types.values()}
         self.inform7_variables_description = {i7type.name: i7type.definition for i7type in self.logic.inform7.types.values()}
         self.inform7_addons_code = self.logic.inform7.code
-        if str2bool(os.environ.get("TEXTWORLD_DEBUG", False)):
-            print("[TW_DEBUG] kb.types.constants_mappings:")
-            print("\t\t", self.types.constants_mapping)
-            print("[TW_DEBUG] kb.rules:")
-            for key, rule in self.rules.items():
-                print(f"[TW_DEBUG]\t{rule.command_template}")
-                print(f"[TW_DEBUG]\t\t{rule}")
-                print(f"[TW_DEBUG]\t\t\tinform7_event: [{self.inform7_events[key]}]")
+ 
     @classmethod
     def default(cls):
         return KB
@@ -166,7 +159,16 @@ class KnowledgeBase:
     def deserialize(cls, data: Mapping) -> "KnowledgeBase":
         logic = GameLogic.deserialize(data["logic"])
         text_grammars_path = data["text_grammars_path"]
-        return cls(logic, text_grammars_path)
+        kb = cls(logic, text_grammars_path)
+        if str2bool(os.environ.get("TEXTWORLD_DEBUG", False)):
+            print("[TW_DEBUG] kb.types.constants_mappings:")
+            print("\t\t", kb.types.constants_mapping)
+            print("[TW_DEBUG] kb.rules:")
+            for key, rule in kb.rules.items():
+                print(f"[TW_DEBUG]\t{rule.command_template}")
+                print(f"[TW_DEBUG]\t\t{rule}")
+                print(f"[TW_DEBUG]\t\t\tinform7_event: [{kb.inform7_events[key]}]")
+        return kb
 
     def serialize(self) -> str:
         data = {

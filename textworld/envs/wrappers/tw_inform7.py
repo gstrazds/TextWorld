@@ -300,9 +300,10 @@ class StateTracking(textworld.core.Wrapper):
 
         self._previous_winning_policy = self._current_winning_policy
         for i7_event in i7_events:
-            valid_actions = self._game_progression.valid_actions
+            valid_actions = self._game_progression.valid_actions.copy()
             self._last_action = self._inform7.detect_action(i7_event, valid_actions)
             if self._last_action is None:
+                print(valid_actions)
                 # try to map command str to an applicable action without using game_progression.valid_actions
                 print("DEBUG: StateTracking(without valid_actions) - ATTEMPT TO apply:", command)
                 # assert isinstance(self._wrapped_env, Inform7Data)
