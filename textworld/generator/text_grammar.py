@@ -5,18 +5,17 @@
 import glob
 import re
 import warnings
-from os.path import join as pjoin
 from collections import OrderedDict, defaultdict
-from typing import Any, Optional, Mapping, List, Tuple, Container, Union
+from os.path import join as pjoin
+from typing import Any, Container, List, Mapping, Optional, Tuple, Union
 
 from numpy.random import RandomState
 
 import textworld
 from textworld import g_rng
-from textworld.utils import uniquify
 from textworld.generator.data import KnowledgeBase
 from textworld.textgen import TextGrammar
-
+from textworld.utils import uniquify
 
 NB_EXPANSION_RETRIES = 20
 
