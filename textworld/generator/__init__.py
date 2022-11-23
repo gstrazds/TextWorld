@@ -152,9 +152,9 @@ def make_quest(world: Union[World, State], options: Optional[GameOptions] = None
     return quests
 
 
-def make_grammar(options: Mapping = {}, rng: Optional[RandomState] = None) -> Grammar:
+def make_grammar(options: Mapping = {}, rng: Optional[RandomState] = None, kb: Optional[KnowledgeBase] = None) -> Grammar:
     rng = g_rng.next() if rng is None else rng
-    grammar = Grammar(options, rng)
+    grammar = Grammar(options, rng, kb=kb)
     grammar.check()
     return grammar
 
@@ -204,7 +204,7 @@ def make_game(options: GameOptions) -> Game:
     if nb_distractors > 0:
         world.populate(nb_distractors, rng=rngs['objects'])
 
-    grammar = make_grammar(options.grammar, rng=rngs['grammar'])
+    grammar = make_grammar(options.grammar, rng=rngs['grammar'], kb=options.kb)
     game = Game(world, grammar, quests)
     game.metadata["uuid"] = options.uuid
 

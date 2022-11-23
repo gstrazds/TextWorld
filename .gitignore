@@ -17,7 +17,7 @@ gen_games*/
 experiments*/
 /textworld/thirdparty/inform7-6M62
 gameinfo.dbg
-textworld_data/
+# textworld_data/
 Inform/
 I7_6M62_Linux_all.tar.gz
 tmp/*
