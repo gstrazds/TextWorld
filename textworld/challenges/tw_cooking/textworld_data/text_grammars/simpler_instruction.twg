@@ -12,8 +12,8 @@ lock_type_var:#lock_types#;#lock_types# #in_the_(r)#
 (c)_var:(c);(c) #in_the_(r)#
 on_var:#on_types#;#on_types# #in_the_(r)#
 in_the_(r):in the (r);within the (r);inside the (r)
-make_syn_u:Make sure;Assure;Make it so;Doublecheck;Look and see;Make absolutely sure
-make_syn_v:make sure;assure;make it so;doublecheck;look and see;make absolutely sure
+make_syn_u:Make sure;Assure;Doublecheck;Look and see;Make absolutely sure
+make_syn_v:make sure;assure;doublecheck;look and see;make absolutely sure
 by_the_syn:with the
 init_syn:in it;inside;placed inside
 into_syn:into;inside
@@ -30,20 +30,20 @@ take_synonym_1:take;retrieve;recover;pick up
 take/s:#take_synonym_1# the #obj_types# from the #on_var#.
 take/c:#take_synonym_1# the #obj_types# from the #on_var#.
 take:#pick-up_synonym_1# the #obj_types# from the floor of the (r).
-pick-up_synonym_1:pick-up;retrieve;recover;pick up;lift
-pick-up_synonym_v:Pick-up;Retrieve;Recover;Pick up;Lift
+pick-up_synonym_1:pick-up;retrieve;pick up
+pick-up_synonym_v:Pick-up;Retrieve;Pick up
 insert:#insert_syn_1# the #obj_types# #into_syn# the #(c)_var#.;you can #insert_syn_1# the #obj_types# #into_syn# the #(c)_var#.
 insert_syn_u:Insert;Put;Place;Deposit
 insert_syn_1:insert;put;place;deposit
 insert_syn_v:inserted;put;placed;deposited
-begood:good;great;fantastic;a great idea
+begood:good;great;fantastic
 put:#put_syn_v# the #obj_types# on the #(s)_var#.
-put_syn_u:Put;Place;Sit;Rest
-put_syn_v:put;place;sit;rest
+put_syn_u:Put;Place;Rest
+put_syn_v:put;place;rest
 on_it_syn:on it;upon it
 drop:#drop_syn_v# the #obj_types# on the floor of the (r).
 drop_syn_u:Place
-drop_syn_v:place;drop;ditch;throw;toss;deposit
+drop_syn_v:place;drop;deposit
 eat:#eat_syn_1# the #eat_var#.
 eat_syn_u:Eat;
 eat_syn_1:eat;
@@ -68,10 +68,10 @@ go/north/d:#go_syn_l# through the north (d).;#tryto# #go_syn_l# through the nort
 go/south/d:#go_syn_l# through the south (d).;#tryto# #go_syn_l# through the south (d).
 go/east/d:#go_syn_l# through the east (d).;#tryto# #go_syn_l# through the east (d).
 go/west/d:#go_syn_l# through the west (d).;#tryto# #go_syn_l# through the west (d).
-go_syn_u:Go;Head;Venture;Travel;Move;Go to the;Take a trip
-go_syn_l:go;head;venture;travel;move;go to the;take a trip
-go_syn_v:visited;travelled;moved;ventured;gone
-tryto:try to;make an effort to;make an attempt to;attempt to
+go_syn_u:Go;Head;Move;Go to the
+go_syn_l:go;head;move;go to the
+go_syn_v:moved;gone
+tryto:try to;attempt to
 wait:Wait.
 #action expandables
 #---------------
@@ -92,13 +92,13 @@ ig_close_lock:close the #lock_types# and lock it.;close the #lock_types# and loc
 #----------------
 quest:#prologue# (list_of_actions) #epilogue#
 quest_one_action:#prologue_one_action# (action)
-prologue:#welcome#! Here is your task for today. #newsentence#;#welcome#! Here is how to play! #newsentence#;#welcome#! #newsentence#;Hey, thanks for coming over to the TextWorld today, there is something I need you to do for me. #newsentence#
-prologue_one_action:#welcome#! Your task for today is to;#welcome#!;Your objective is to;Hey, thanks for coming over to TextWorld! Please
-newsentence:First off,;First of all,;First stop,;First step,;Your first objective is to;First thing I need you to do is to;First off, if it's not too much trouble, I need you to;First of all, you could, like,;First, it would be #begood# if you could
-action_separator: Then, ; Next, ; Following that, ; If you can #do# that, ; Once you #do# that, ; That done, ; With that over with, ; With that accomplished, ; With that done, ; Okay, and then, ; And then, ;#emptyinstruction1#;#emptyinstruction2#;#emptyinstruction3#;#emptyinstruction4#;#emptyinstruction5#;#emptyinstruction6#;#emptyinstruction7#;#emptyinstruction8#;#emptyinstruction9#;#emptyinstruction10#
-epilogue:Once that's all handled, you can stop!;And once you've done that, you win!;And if you do that, you're the winner!;That's it!;Got that? Good!;Alright, thanks!;And that's it, another successful game of TextWorld!
+prologue:#welcome#! Here is your task for today. #newsentence#;#welcome#! Here is how to play! #newsentence#;#welcome#! #newsentence#
+prologue_one_action:#welcome#! Your task for today is to;#welcome#!;Your objective is to
+newsentence:First off,;First of all,;First step,;Your first objective is to;First thing I need you to do is to;First off, if it's not too much trouble, I need you to;First, it would be #begood# if you could
+action_separator: Then, ; Next, ; Following that, ; If you can #do# that, ; Once you #do# that, ; That done, ; With that accomplished, ; With that done, ; Okay, and then, ; And then, ;#emptyinstruction1#;#emptyinstruction2#;#emptyinstruction3#;#emptyinstruction4#;#emptyinstruction5#;#emptyinstruction6#;#emptyinstruction7#;#emptyinstruction8#;#emptyinstruction9#;#emptyinstruction10#
+epilogue:Once that's all handled, you can stop!;And once you've done that, you win!;That's it!
 do:manage;do;accomplish;get around to doing;finish;succeed at;get through with
-welcome:Welcome to TextWorld;You are now playing a #exciting# #game# of TextWorld;Welcome to another #exciting# #game# of TextWorld;It's time to explore the amazing world of TextWorld;Get ready to pick stuff up and put it in places, because you've just entered TextWorld;I hope your ready to go into rooms and interact with objects, because you've just entered TextWorld;Who's got a virtual machine and is about to play through an #exciting# round of TextWorld? You do;Hello and welcome to the amazing #textualworld# that is TextWorld!;
+welcome:Welcome to TextWorld
 exciting:exciting;fast paced;life changing;profound
 game:game;round;session;episode;installment
 textualworld:textual world;world of text;text based world;text world
@@ -125,13 +125,13 @@ afterhave:After you have;Having;Once you have;If you have
 havetaken:taken;got;picked up
 havepicked-up:taken;got;picked up
 after:After;
-taking:taking;getting;picking up;stealing
-picking-up:taking;getting;picking up;stealing
+taking:taking;getting;picking up
+picking-up:taking;getting;picking up
 ate:ate;consumed
 inserted:inserted;put in
 inserting:inserting;putting in
 put_v:put;place;set;set down
-putting:putting;placing;setting;setting down
+putting:putting;placing;setting down
 opening:opening;pulling open
 opened:opened;pulled open
 unlocked:unlocked
@@ -142,7 +142,7 @@ gone:gone;gotten
 getting:going;getting
 closed:closed;shut
 closing:closing;shutting
-dropped:dropped;ditched;tossed;left behind
+dropped:dropped;left behind
 dropping:dropping;leaving behind
 
 emptyinstruction1: And then, ;
