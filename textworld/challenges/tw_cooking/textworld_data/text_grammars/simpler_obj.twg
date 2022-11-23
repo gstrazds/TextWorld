@@ -40,12 +40,12 @@ storage_(r):#storage_(r)_adj# | #storage_(r)_noun#
 storage_(r)_noun:pantry;basement;closet;attic;garage;vault;cellar;spare room
 storage_(r)_adj:spacious;roomy;cramped;stuffed;messy;forgotten;ugly;gloomy
 cook_(r):#cook_(r)_adj# | #cook_(r)_noun#
-cook_(r)_noun:kitchen;kitchenette;canteen;cookery;scullery;cookhouse;dish-pit
+cook_(r)_noun:kitchen;kitchenette;canteen;cookery;scullery;cookhouse
 cook_(r)_adj:#hot-adj# hot;steamy;hot;sweaty;balmy
 rest_(r):#rest_(r)_adj_type_1# | #rest_(r)_noun_type_1#;#rest_(r)_adj_type_2# | #rest_(r)_noun_type_2#
 #sleep
 rest_(r)_noun_type_1:bedroom;bedchamber;chamber
-rest_(r)_adj_type_1:cozy;relaxing;pleasant;sleepy
+rest_(r)_adj_type_1:cozy;relaxing;pleasant
 #fun with friends
 rest_(r)_noun_type_2:lounge;bar;parlor;salon;playroom;recreation zone
 rest_(r)_adj_type_2:fun;entertaining;exciting;well lit
@@ -53,7 +53,7 @@ work_(r):#work_(r)_adj# | #work_(r)_noun#
 work_(r)_noun:office;studio;workshop;cubicle;study
 work_(r)_adj:silent;austere;serious;still
 
-hot-adj:super;unreasonably;absurdly;alarmingly;upsettingly
+hot-adj:super;unreasonably;absurdly;alarmingly
 #Containers
 # Each roomType must has specific containers
 #container descriptions work like room descriptions, except the (r) is a (c)
@@ -302,7 +302,7 @@ door_what_is:imposing;sturdy;well-built;durable;robust;rugged;hefty;commanding;g
 #-----------------
 force_open:force open;open;break open;bash open;crack open
 openable_desc:[if open]It is open.[else if locked]It is locked.[otherwise]It is closed.[end if];[if open]You can see inside it.[else if locked]There is a lock on it and seems impossible to #force_open#.[otherwise]You can't see inside it because the lid's in your way.[end if]
-on_desc:On the (name), is [a list of things on the (obj)].;You can see [list of things on the (obj)] on the (name);this (name) has the following upon it, [list of things on the (obj)];you gaze in terror at the [list of things on the (obj)] that lie upon this very (name)!; "now why" you think, "am I looking at [list of things on the (obj)] on this (name)?"
+on_desc:On the (name), is [a list of things on the (obj)].;You can see [list of things on the (obj)] on the (name)
 #Key Match Adjectives
 #These adjectives CANNOT be used elsewhere!
 #----------------
