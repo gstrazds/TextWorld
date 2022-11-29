@@ -15,6 +15,7 @@
 build/*
 gen_games*/
 tw_games/*
+tw_games2/*
 experiments*/
 /textworld/thirdparty/inform7-6M62
 gameinfo.dbg

@@ -291,13 +291,17 @@ looks_seems:looks;seems;appears;appears to be;would seem to be
 out_in_place:out of place;to fit in;well matched to everything else
 restaurant:Burger#place#
 place:town;village;hamlet;burg;ville;City
-(f)_desc:The [noun] looks #food_what#.;That's a [noun]!;You couldn't pay me to eat that [noun].
-food_what:appetizing;delicious;tasty;appealing;delectable;heavenly;inviting;savory;tantalizing;tempting
+(f)_desc:The [noun] looks #food_what#.
+#-----;That's a [noun]!;You couldn't pay me to eat that [noun].
+food_what:appetizing;delicious;tasty;delectable
+#-----;;appealing;delectable;heavenly;inviting;savory;tantalizing;tempting
 (k)_desc:The [noun] is cold to the touch;The [noun] is #key_weight#.;The metal of the [noun] is #key_metal#.;The [noun] looks useful.
 key_weight:heavy;light;weighty;surprisingly heavy;heavier than it looks
 key_metal:antiqued;brushed;hammered;polished;satin;rusty
-(d)_desc:The [noun] looks #door_what_is#.;It's a #door_what_is# [noun];It is what it is, a [noun].
-door_what_is:imposing;sturdy;well-built;durable;robust;rugged;hefty;commanding;grand;noble;ominous;towering;manageable;solid;stuffy
+(d)_desc:The [noun] looks #door_what_is#.;It's a #door_what_is# [noun]
+#-----;It is what it is, a [noun].
+door_what_is:imposing;sturdy;well-built;durable;robust;rugged
+#-----;hefty;commanding;grand;noble;ominous;towering;manageable;solid;stuffy
 #State descriptors
 #-----------------
 force_open:force open;open;break open;bash open;crack open

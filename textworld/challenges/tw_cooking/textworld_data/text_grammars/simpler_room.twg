@@ -19,12 +19,14 @@ inform7nounnoa:[if (obj) is locked]locked[else if (obj) is open]open[otherwise]c
 #----------
 #Text for introducing the room. ex: "Greetings, you are now in the hot kitchen"
 # dec:[if unvisited]#GREETING!# #dec_type##suffix_(r)#[otherwise]#revisit#[end if];[if unvisited]#dec_type##suffix_(r)#[otherwise]#revisit#[end if]
-dec:#dec_type##suffix_(r)#
+dec:#dec_type#.
+#-- #suffix_(r)#
 
 ### First time in room ###
 ###dec_type:#reg-0#;#normal-0#;#difficult-0#;#moredifficult-0#;#playful-0#
 dec_type:#reg-0#;#normal-0#
-reg-0:#04#;#05#;#06#
+reg-0:#06#
+#---- #04#;;#05#
 normal-0:#07#
 difficult-0:#016#
 moredifficult-0:#017#
@@ -39,7 +41,8 @@ revisit:You have re-entered the (name).;You re-enter the (name).;Well here you a
 01:I am sorry to announce that you are now in the (name)
 02:Ah, the (name-n). This is some kind of (name-n), really great (name-adj) vibes in this place, a wonderful (name-adj) atmosphere. And now, well, you're in it
 03:Okay, so you're in a (name-n), cool, but is it (name-adj)? You better believe it is
-04:#dec_find-yourself# in a (name);#dec_guess-what# (name)
+04:#dec_find-yourself# in a (name)
+#----;#dec_guess-what# (name)
 05:Well, here we are in #dec_a_the# (name)
 06:You're now in #dec_a_the# (name)
 07:You've entered a (name);You've just #dec_walked_into# a (name)
