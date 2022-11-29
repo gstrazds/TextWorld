@@ -215,7 +215,8 @@ if __name__ == "__main__":
     elif args.subcommand in textworld.challenges.CHALLENGES:
         _, make_game, _ = textworld.challenges.CHALLENGES[args.subcommand]
 
-        options.grammar.theme = args.theme
+        if args.theme:
+            options.grammar.theme = args.theme
 
         game = make_game(settings=args.__dict__, options=options)
         game_file = textworld.generator.compile_game(game, options)
