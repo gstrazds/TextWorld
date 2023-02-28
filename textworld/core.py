@@ -232,7 +232,10 @@ class Environment:
         """
         outfile = StringIO() if mode in ['ansi', "text"] else sys.stdout
 
-        msg = self.state.feedback.rstrip() + "\n"
+        if self.state.feedback is None:
+            msg = "(EMPTY FEEDBACK)\n"  # prevent crash due to calling (None).rstrip()
+        else:
+            msg = self.state.feedback.rstrip() + "\n"
         if self.display_command_during_render and self.state.last_command is not None:
             msg = '> ' + self.state.last_command + "\n" + msg
 
