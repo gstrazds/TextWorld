@@ -19,6 +19,7 @@ tw_games2/*
 experiments*/
 /textworld/thirdparty/inform7-6M62
 gameinfo.dbg
+geckodriver.log
 # textworld_data/
 Inform/
 I7_6M62_Linux_all.tar.gz
