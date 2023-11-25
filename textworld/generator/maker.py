@@ -23,7 +23,6 @@ from textworld.logic import State, Variable, Proposition, Action
 from textworld.generator.game import GameOptions
 from textworld.generator.game import Game, World, Quest, Event, EntityInfo
 from textworld.generator.graph_networks import DIRECTIONS
-from textworld.render import visualize
 from textworld.envs.wrappers import Recorder
 
 
@@ -724,7 +723,7 @@ class GameMaker:
     def set_walkthrough(self, commands: List[str]):
         with make_temp_directory() as tmpdir:
             game_file = self.compile(pjoin(tmpdir, "set_walkthrough.ulx"))
-            env = textworld.start(game_file, infos=EnvInfos(last_action=True, intermediate_reward=True))
+            env = textworld.start(game_file, request_infos=EnvInfos(last_action=True, intermediate_reward=True))
             state = env.reset()
 
             events = {event: event.copy() for quest in self.quests for event in quest.win_events}
@@ -857,7 +856,7 @@ class GameMaker:
         :param filename: filename for screenshot
         """
         game = self.build(validate=False)
-        return visualize(game, interactive=interactive)
+        return textworld.render.visualize(game, interactive=interactive)
 
     def import_graph(self, G: nx.Graph) -> List[WorldRoom]:
         """ Convert Graph object to a list of `Proposition`.

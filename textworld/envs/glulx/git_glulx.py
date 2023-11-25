@@ -6,9 +6,11 @@
 import sys
 import textwrap
 import subprocess
-from pkg_resources import Requirement, resource_filename
 
+import importlib.resources
 from typing import Union
+from os.path import join as pjoin
+
 
 from glk import ffi, lib
 from io import StringIO
@@ -17,7 +19,7 @@ import textworld
 from textworld.core import GameState
 from textworld.core import GameNotRunningError
 
-GLULX_PATH = resource_filename(Requirement.parse('textworld'), 'textworld/thirdparty/glulx/Git-Glulx')
+GLULX_PATH = pjoin(importlib.resources.files("textworld"), "thirdparty", "glulx", "Git-Glulx")
 
 
 def _strip_input_prompt_symbol(text: str) -> str:

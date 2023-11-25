@@ -14,7 +14,7 @@ class Filter(Wrapper):
     Requested information will be included within the `infos` dictionary
     returned by `Filter.reset()` and `Filter.step(...)`. To request
     specific information, create a
-    :py:class:`textworld.EnvInfos <textworld.envs.wrappers.filter.EnvInfos>`
+    :py:class:`textworld.EnvInfos <textworld.core.EnvInfos>`
     and set the appropriate attributes to `True`. Then, instantiate a `Filter`
     wrapper with the `EnvInfos` object.
 
@@ -33,10 +33,10 @@ class Filter(Wrapper):
     """
 
     def _get_requested_infos(self, game_state: GameState):
-        infos = {attr: getattr(game_state, attr) for attr in self.infos.basics}
+        infos = {attr: getattr(game_state, attr) for attr in self.request_infos.basics}
 
-        if self.infos.extras:
-            for attr in self.infos.extras:
+        if self.request_infos.extras:
+            for attr in self.request_infos.extras:
                 key = "extra.{}".format(attr)
                 if key == 'extra._facts':
                     infos[key] = game_state.get("_facts")
@@ -60,5 +60,5 @@ class Filter(Wrapper):
     def copy(self) -> "Filter":
         env = Filter()
         env._wrapped_env = self._wrapped_env.copy()
-        env.infos = self.infos
+        env.request_infos = self.request_infos
         return env

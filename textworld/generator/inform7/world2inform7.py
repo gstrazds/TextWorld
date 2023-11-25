@@ -8,20 +8,21 @@ import shutil
 import warnings
 import subprocess
 import textwrap
+
+import importlib.resources
 from os.path import join as pjoin
 from typing import Iterable, Optional, List
-from pkg_resources import Requirement, resource_filename
 
 import numpy as np
 
-from textworld.utils import make_temp_directory, str2bool, chunk
+from textworld.utils import make_temp_directory, check_flag, chunk
 
 from textworld.generator.game import Game
 from textworld.generator.world import WorldRoom, WorldEntity
 from textworld.logic import Signature, Proposition, Action, Variable
 
 
-I7_DEFAULT_PATH = resource_filename(Requirement.parse('textworld'), 'textworld/thirdparty/inform7-6M62')
+I7_DEFAULT_PATH = pjoin(importlib.resources.files("textworld"), "thirdparty", "inform7-6M62")
 
 
 class TextworldInform7Warning(UserWarning):
@@ -243,7 +244,7 @@ class Inform7Game:
         for action in actions:
             event = self.kb.inform7_events[action.name]
             if event.format(**self._get_name_mapping(action)).lower() == i7_event.lower():
-                if str2bool(os.environ.get("TEXTWORLD_DEBUG", False)):
+                if check_flag("TEXTWORLD_DEBUG"):
                     print(f"[DEBUG]{action}:", self._get_name_mapping(action))
                 return action
 
@@ -1062,7 +1063,7 @@ def compile_inform7_game(source: str, output: str, verbose: bool = False) -> Non
 
         i6_options = "-"
         # i6_options += "k"  # Debug file, maybe useful to extract vocab?
-        if str2bool(os.environ.get("TEXTWORLD_I6_DEBUG", False)):
+        if check_flag("TEXTWORLD_I6_DEBUG"):
             i6_options += "D"  # Debug mode, enables Inform7 testing commands.
 
         i6_options += "E2wS"

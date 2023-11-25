@@ -1,17 +1,18 @@
 @@grammar :: GameLogic
 
-@@eol_comments :: ?"#.*$"
+@@eol_comments :: /#.*?$/
 
+start = document ;
 
 str = ?'"[^"]*"' ;
 
-strBlock = ?'"""(.|\n)*?"""' ;
+strBlock = ?'"""(?:.|\n)*?"""' ;
 
-name = ?"\w+" ;
+name = ?"[\w/-]+" ;
 
 phName = ?"[\w']+" ;
 
-predName = ?"[\w/]+" ;
+predName = ?"!?[\w/]+" ;
 
 ruleName = ?"[\w/]+" ;
 
@@ -90,8 +91,7 @@ type::TypeNode = "type" name:name [":" supertypes:",".{name}+] "{" parts:{typePa
 
 document::DocumentNode = types:{type}* $ ;
 
-start = document ;
-
+conjunctiveQuery = "&".{predicate}+ $ ;
 
 onlyVariable = @:variable $ ;
 onlySignature = @:signature $ ;
