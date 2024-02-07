@@ -1,12 +1,16 @@
 # TextWorld
 
-[![Build Status](https://dev.azure.com/maluuba/TextWorld/_apis/build/status/microsoft.TextWorld?branchName=main)](https://dev.azure.com/maluuba/TextWorld/_build/latest?definitionId=180&branchName=main) [![PyPI version](https://badge.fury.io/py/textworld.svg)](https://badge.fury.io/py/textworld) [![Documentation Status](https://readthedocs.org/projects/textworld/badge/?version=latest)](https://textworld.readthedocs.io/en/stable/?badge=stable) [![Join the chat at https://gitter.im/Microsoft/TextWorld](https://badges.gitter.im/Microsoft/TextWorld.svg)](https://gitter.im/Microsoft/TextWorld?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![PyPI version](https://img.shields.io/pypi/v/textworld.svg?logo=pypi&label=PyPI&logoColor=gold)](https://pypi.org/project/textworld)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/textworld.svg?logo=python&label=Python&logoColor=gold)](https://pypi.org/project/textworld/)
+[![Build Status](https://dev.azure.com/maluuba/TextWorld/_apis/build/status/microsoft.TextWorld?branchName=main)](https://dev.azure.com/maluuba/TextWorld/_build/latest?definitionId=180&branchName=main)
+[![Documentation Status](https://readthedocs.org/projects/textworld/badge/?version=latest)](https://textworld.readthedocs.io/en/stable/?badge=stable)
+[![Join the chat at https://gitter.im/Microsoft/TextWorld](https://badges.gitter.im/Microsoft/TextWorld.svg)](https://gitter.im/Microsoft/TextWorld?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 A text-based game generator and extensible sandbox learning environment for training and testing reinforcement learning (RL) agents. Also check out [aka.ms/textworld](https://aka.ms/textworld/) for more info about TextWorld and its creators. Have questions or feedback about TextWorld? Send them to textworld@microsoft.com or use the Gitter channel listed above.
 
 ## Installation
 
-TextWorld supports __Python 3.7/3.8/3.9__ for __Linux__ and __macOS__ systems only at the moment. For __Windows__ users, docker can be used as a workaround (see Docker section below).
+TextWorld supports __Python 3.9/3.10/3.11/3.12__ for __Linux__ and __macOS__ systems only at the moment. For __Windows__ users, docker can be used as a workaround (see Docker section below).
 
 ### Requirements
 
@@ -81,19 +85,18 @@ To visualize the game state while playing, use the `--viewer [port]` option.
 
 A new browser tab should open and track your progress in the game.
 
-### Playing a game (Python + [Gym](https://github.com/openai/gym))
+### Playing a game (Python + [Gym](https://github.com/openai/gym)-like API)
 
-Here's how you can interact with a text-based game from within Python using OpenAI's Gym framework.
+Here's how you can interact with a text-based game from within Python using a Gym-like API.
 
 ```python
-import gym
 import textworld.gym
 
-# Register a text-based game as a new Gym's environment.
+# Register a text-based game as a new environment.
 env_id = textworld.gym.register_game("tw_games/custom_game.z8",
                                      max_episode_steps=50)
 
-env = gym.make(env_id)  # Start the environment.
+env = textworld.gym.make(env_id)  # Start the environment.
 
 obs, infos = env.reset()  # Start new episode.
 env.render()
@@ -109,7 +112,7 @@ env.close()
 print("moves: {}; score: {}".format(moves, score))
 ```
 
-> **Note:** To play text-based games without Gym, see [Playing text-based games with TextWorld.ipynb](notebooks/Playing%20text-based%20games%20with%20TextWorld.ipynb)
+> **Note:** To play text-based games without a Gym-like API, see [Playing text-based games with TextWorld.ipynb](notebooks/Playing%20text-based%20games%20with%20TextWorld.ipynb)
 
 ## Documentation
 
@@ -164,3 +167,12 @@ provided by the bot. You will only need to do this once across all repos using o
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
 For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
 contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+
+## License
+
+- [TextWorld](https://github.com/microsoft/TextWorld) - MIT License
+- [Inform7](https://github.com/ganelson/inform) - Artistic License 2.0
+- [Jericho](https://github.com/microsoft/jericho) - GNU General Public License (GPL) v2.0
+- [Fast Downward](https://github.com/MarcCote/downward) - GNU General Public License (GPL) v3.0
+- [Git](https://github.com/DavidKinder/Git) - MIT License
+- [cheakglk](https://github.com/erkyrath/cheapglk) - MIT License
