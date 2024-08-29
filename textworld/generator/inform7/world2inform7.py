@@ -449,7 +449,7 @@ class Inform7Game:
             """)  # noqa: E501
 
         # Replace default banner with a greeting message and the quest description.
-        source += textwrap.dedent("""\
+        source += textwrap.dedent(r"""
         Rule for printing the banner text:
             say "[fixed letter spacing]";
             say "                    ________  ________  __    __  ________        [line break]";
@@ -473,7 +473,7 @@ class Inform7Game:
             say "[variable letter spacing][line break]";
             say "[objective][line break]".
 
-        """)  # noqa: W605
+        """).lstrip()
 
         # Simply display *** The End *** when game ends.
         source += textwrap.dedent("""\
