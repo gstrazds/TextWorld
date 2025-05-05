@@ -6,9 +6,9 @@ on:
   push:
     branches:
       - main
-  release:
-    types:
-      - published
+#  release:
+#    types:
+#      - published
 
 jobs:
   build_wheels:
@@ -145,26 +145,26 @@ jobs:
           path: dist/*.tar.gz
           if-no-files-found: error
 
-  upload_pypi:
-    name: >-
-        Publish TextWorld 📦 to PyPI
-    needs:
-      - build_wheels
-      - build_sdist
-    runs-on: ubuntu-latest
-    environment:
-      name: release
-      url: https://pypi.org/project/textworld/
-    permissions:
-      id-token: write  # mandatory for trusted publishing
-    steps:
-      - name: Download build artifacts
-        uses: actions/download-artifact@v4
-        with:
-          pattern: tw-*
-          path: dist
-          merge-multiple: true
-      - name: Publish distribution 📦 to PyPI
-        uses: pypa/gh-action-pypi-publish@release/v1
-        with:
+# upload_pypi:
+#    name: >-
+#        Publish TextWorld 📦 to PyPI
+#    needs:
+#      - build_wheels
+#      - build_sdist
+#    runs-on: ubuntu-latest
+#    environment:
+#      name: release
+#      url: https://pypi.org/project/textworld/
+#    permissions:
+#      id-token: write  # mandatory for trusted publishing
+#    steps:
+#      - name: Download build artifacts
+#        uses: actions/download-artifact@v4
+#        with:
+#          pattern: tw-*
+#          path: dist
+#          merge-multiple: true
+#      - name: Publish distribution 📦 to PyPI
+#        uses: pypa/gh-action-pypi-publish@release/v1
+#        with:
           skip-existing: true
