@@ -309,9 +309,10 @@ class StateTracking(textworld.core.Wrapper):
             valid_actions = self._game_progression.valid_actions.copy()
             self._last_action = self._inform7.detect_action(i7_event, valid_actions)
             if self._last_action is None:
-                print(valid_actions)
                 # try to map command str to an applicable action without using game_progression.valid_actions
-                print("DEBUG: StateTracking(without valid_actions) - ATTEMPT TO apply:", command)
+                if command != 'inventory' and check_flag("TEXTWORLD_DEBUG"):
+                    print("DEBUG: StateTracking(without valid_actions) - ATTEMPT TO apply:", command)
+                    print("DEBUG: valid_actions:", valid_actions)
                 # assert isinstance(self._wrapped_env, Inform7Data)
                 self._last_action = self._game_progression.action_if_command_is_applicable(command)
 
@@ -321,9 +322,10 @@ class StateTracking(textworld.core.Wrapper):
                 self._current_winning_policy = self._game_progression.winning_policy
                 self._moves += 1
             else:
-                # self.state.feedback = "Invalid command."
-                print("DEBUG: StateTracking failed to identify action for command:", command)
-                pass  # We assume nothing happened in the game.
+                if command != 'inventory' and check_flag("TEXTWORLD_DEBUG"):
+                    print("DEBUG: StateTracking failed to identify action for command:", command)
+                    # self.state.feedback = "Invalid command."
+                pass  # Assume nothing happened in the game.
 
         self._gather_infos()
         self.state["done"] = self.state["won"] or self.state["lost"]
